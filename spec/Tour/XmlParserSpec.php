@@ -7,6 +7,10 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 use Money\Money;
+use Tour\Entities\Tour;
+use Tour\Entities\Tours;
+use Tour\Entities\Departure;
+use Tour\Entities\Departures;
 
 
 class XmlParserSpec extends ObjectBehavior
@@ -25,116 +29,130 @@ class XmlParserSpec extends ObjectBehavior
 
 
     // }
-    function it_clean_html()
-    {
-        $this->cleanUpHtmlToOneLinePlainText('&lt;')->shouldBe('<');
-        $this->cleanUpHtmlToOneLinePlainText(' ')->shouldBe('');
-        $this->cleanUpHtmlToOneLinePlainText('x   x ')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText("x\nx")->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText("x\tx")->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText("x\rx")->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('x&nbsp;x ')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText(' &nbsp;x &nbsp;  x&nbsp; &nbsp;')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('x<br>x')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('x<br/>x')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('x<br />x')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('x<BR/>x')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('x<p>x</p>')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('<p>x</p>x')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('<p>x</p><p>x</p>')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('x<div>x</div>')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('<div>x</div>x')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('<div>x</div><div>x</div>')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('<div>x</div><div>x</div>')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('<div>x</div><p>x</p>')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('<div class="test">x</div><p style="margin:10;">x</p>')->shouldBe('x x');
-        $this->cleanUpHtmlToOneLinePlainText('x<br class="test" />x')->shouldBe('x x');
-        // $this->cleanUpHtmlToOneLinePlainText(' 5, 4&nbsp;and&nbsp;3 star hotels&nbsp;&nbsp;')->shouldBe('5, 4'."\xC2\xA0".'and'."\xC2\xA0".'3 star hotels'."\xC2\xA0".''."\xC2\xA0".'');
-        $this->cleanUpHtmlToOneLinePlainText(' 5, 4&nbsp;and&nbsp;3 star hotels&nbsp;&nbsp;')
-                ->shouldBe('5, 4 and 3 star hotels');
-        $this->cleanUpHtmlToOneLinePlainText('<div style="margin: 1px 0px; padding: 1px 0px; border: 0px; outline: 0px; font-size: 14px; vertical-align: baseline; text-align: justify; line-height: 19px; color: rgb(6, 119, 179);">The tour price&nbsp; cover the following services: <b style="margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; background-color: transparent;">Accommodation</b>; 5, 4&nbsp;and&nbsp;3 star hotels&nbsp;&nbsp;</div>')
-            ->shouldBe('The tour price cover the following services: Accommodation; 5, 4 and 3 star hotels');
-        
-    }
-    function it_has_mathod_xmlToCSV()
+    
+
+    // function it_has_mathod_xmlToCSV()
+    // {
+    //     $inputXml = $this->getXml();
+    //     $outputText = $this->getOutputText();
+    //     $this->xmlToCSV($inputXml)->shouldBe($outputText);
+    // }
+
+    function it_load_xml_into_tour_objects()
     {
         $inputXml = $this->getXml();
-        $outputText = $this->getOutputText();
-        $this->xmlToCSV($inputXml)->shouldBe($outputText);
+        $this->loadXmlString($inputXml);
+        $this->getTours()->shouldHaveType(Tours::class);
+        $this->getTours()->shouldHaveCount(2);
+        $this->getTours()[0]->shouldHaveType(Tour::class);
+        // $this->getTours()[0]->getCode()->shouldBe('AE-19');
     }
 
     function it_can_get_title()
     {
         $inputXml = $this->getXml();
-        // $outputText = $this->getOutputText();
         $this->loadXmlString($inputXml);
-        $this->getTitle()->shouldBe('Anzac & Egypt Combo Tour');
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getTitle()->shouldBe('Anzac & Egypt Combo Tour');
     }
     function it_can_get_code()
     {
         $inputXml = $this->getXml();
-        // $outputText = $this->getOutputText();
         $this->loadXmlString($inputXml);
-        $this->getCode()->shouldBe('AE-19');
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getCode()->shouldBe('AE-19');
     }
     function it_can_get_duration()
     {
         $inputXml = $this->getXml();
-        // $outputText = $this->getOutputText();
         $this->loadXmlString($inputXml);
-        $this->getDuration()->shouldBe(18);
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getDuration()->shouldBe(18);
     }
 
     function it_can_get_inclusions()
     {
         $inputXml = $this->getXml();
-        // $outputText = $this->getOutputText();
         $this->loadXmlString($inputXml);
-        $this->getInclusions()->shouldBe('The tour price cover the following services: Accommodation; 5, 4 and 3 star hotels');
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getInclusions()
+            ->shouldBe('The tour price cover the following services: Accommodation; 5, 4 and 3 star hotels');
     }
 
-    function it_can_get_min_price()
-    {
-        $inputXml = $this->getXml();
-        $this->loadXmlString($inputXml);
-        $this->getMinPrice()->shouldBeLike(Money::EUR('142720'));
-    }
-    function it_can_get_departures()
-    {
-        $inputXml = $this->getXml();
-        $this->loadXmlString($inputXml);
-        $this->getDepartures()[1]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
-    }
+    // function it_can_get_departures_collection()
+    // {
+    //     $inputXml = $this->getXml();
+    //     $this->loadXmlString($inputXml);
+    //     // get first tour
+    //     $tour = $this->getTours()[0];
+    //     $tour->getDepartures()->shouldHaveType(Departures::class);
+    //     $tour->getDepartures()->shouldHaveCount(3);
+    //     $tour->getDepartures()[0]->shouldHaveType(Departure::class);
+    // }
 
-    function it_can_get_departure_discount()
-    {
-        $inputXml = $this->getXml();
-        $this->loadXmlString($inputXml);
-        $this->getDepartures()[0]->getDiscount()->shouldBe(0.15);
-    }
+    // function it_can_get_all_departures()
+    // {
+    //     $inputXml = $this->getXml();
+    //     $this->loadXmlString($inputXml);
+    //     // get first tour
+    //     $tour = $this->getTours()[0];
+    //     $tour->getDepartures()[0]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
+    //     $tour->getDepartures()[1]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
+    //     $tour->getDepartures()[2]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
+    //     $this->getDepartures()->shouldHaveCount(3);
+    //     $this->getDepartures()[0]->shouldHaveType(Departure::class);
+    // }
 
-    function it_can_get_departure_price()
-    {
-        $inputXml = $this->getXml();
-        $this->loadXmlString($inputXml);
-        $this->getDepartures()[0]->getPrice()->shouldBeLike(Money::EUR('172400'));
-    }
+    // function it_can_get_departure_discount()
+    // {
+    //     $inputXml = $this->getXml();
+    //     $this->loadXmlString($inputXml);
+    //     $this->getDepartures()[0]->getDiscount()->shouldBe(0.15);
+    // }
 
-    function it_should_get_departure_discount_without_discount_set()
-    {
-        $inputXml = $this->getXml();
-        $this->loadXmlString($inputXml);
-        $this->getDepartures()[2]->getDiscount()->shouldBe(0);
-    }
+    // function it_can_get_departure_price()
+    // {
+    //     $inputXml = $this->getXml();
+    //     $this->loadXmlString($inputXml);
+    //     $this->getDepartures()[0]->getPrice()->shouldBeLike(Money::EUR('172400'));
+    // }
 
-    function it_should_throw_error_if_no_departures()
-    {
-        $inputXml = $this->getXmlWithuthDepartures();
-        $this->loadXmlString($inputXml);
-        $this->shouldThrow('\Exception')->duringGetDepartures();
-        // $this->getDepartures()[2]->getDiscount()->shouldBe(0);
-    }
+    // function it_can_get_departure_final_price_with_discount()
+    // {
+    //     $inputXml = $this->getXml();
+    //     $this->loadXmlString($inputXml);
+    //     $this->getDepartures()[1]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
+    // }
 
+    // function it_should_get_departure_discount_without_discount_set()
+    // {
+    //     $inputXml = $this->getXml();
+    //     $this->loadXmlString($inputXml);
+    //     $this->getDepartures()[2]->getDiscount()->shouldBe(0);
+    //     $this->getDepartures()[2]->getPrice()->shouldBeLike(Money::EUR('178400'));
+    //     $this->getDepartures()[2]->getFinalPrice()->shouldBeLike(Money::EUR('178400'));
+    // }
+
+    // function it_should_throw_error_if_no_departures()
+    // {
+    //     $inputXml = $this->getXmlWithoutDepartures();
+    //     $this->loadXmlString($inputXml);
+    //     // no departures
+    //     // $this->getDepartures()[2]->getDiscount()->shouldBe(0);
+    //     $this->shouldThrow('\Exception')->duringGetDepartures();
+    // }
+    // function it_can_get_min_price()
+    // {
+    //     $inputXml = $this->getXml();
+    //     $this->loadXmlString($inputXml);
+    //     // get first tour
+    //     $tour = $this->getTours()[0];
+    //     $tour->getMinPrice()->shouldBeLike(Money::EUR('142720'));
+    // }
     public function getXml()
     {
         return <<<EOD
@@ -171,7 +189,7 @@ class XmlParserSpec extends ObjectBehavior
 EOD;
     }
 
-    public function getXmlWithuthDepartures()
+    public function getXmlWithoutDepartures()
     {
         return <<<EOD
 <?xml version="1.0"?>

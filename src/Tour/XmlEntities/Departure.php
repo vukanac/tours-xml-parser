@@ -24,7 +24,7 @@ class Departure
         }
         
         // Price can be set to 0
-        if (!isset($price) || !is_numeric($discount)) {
+        if (!isset($price) || !is_numeric($price)) {
             throw new \Exception('Price is not set!');
         }
 
