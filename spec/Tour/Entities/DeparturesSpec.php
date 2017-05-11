@@ -22,26 +22,26 @@ class DeparturesSpec extends ObjectBehavior
         $this->shouldHaveType(ArrayObject::class);
     }
 
-    // function it_is_addable()
-    // {
-    //     $departure = new Departure('XZ', Money::EUR('30000'));
-    //     $this->add($departure);
-    // }
+    function it_is_addable()
+    {
+        $departure = new Departure('XZ', Money::EUR('30000'));
+        $this->add($departure);
+    }
 
-    // function it_is_countable()
-    // {
-    //     $this->shouldHaveCount(0);
-    //     $departure = new Departure('XZ', Money::EUR('30000'));
-    //     $this->add($departure);
-    //     $this->shouldHaveCount(1);
-    //     $this->add($departure);
-    //     $this->shouldHaveCount(2);
-    // }
+    function it_is_countable()
+    {
+        $this->shouldHaveCount(0);
+        $departure = new Departure('XZ', Money::EUR('30000'));
+        $this->add($departure);
+        $this->shouldHaveCount(1);
+        $this->add($departure);
+        $this->shouldHaveCount(2);
+    }
 
-    // function it_can_get_one_departure()
-    // {
-    //     $departure = new Departure('XZ', Money::EUR('30000'));
-    //     $this->add($departure);
-    //     $this[0]->shouldHaveType(Departure::class);
-    // }
+    function it_can_get_one_departure()
+    {
+        $departure = new Departure('XZ', Money::EUR('30000'));
+        $this->add($departure);
+        $this[0]->shouldHaveType(Departure::class);
+    }
 }
