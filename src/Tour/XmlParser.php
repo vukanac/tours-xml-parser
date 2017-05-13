@@ -64,7 +64,6 @@ class XmlParser
 
         $departures = new Departures();
         $departuresParser = $tourParser->getDepartures();
-        // var_dump($departuresParser);
         foreach ($departuresParser as $departureParser) {
             $depCode = $departureParser->getCode();
             $depPrice = $departureParser->getPrice();
@@ -72,7 +71,6 @@ class XmlParser
 
             $moneyParser = new DecimalMoneyParser(new ISOCurrencies());
             $priceMoney = $moneyParser->parse($depPrice, 'EUR');
-            // echo $priceMoney->getAmount(); // outputs 100000
 
             $discount = floatval($depDiscount) / 100;
 

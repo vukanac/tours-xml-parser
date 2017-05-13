@@ -34,6 +34,13 @@ class DepartureSpec extends ObjectBehavior
         $this->getDiscount()->shouldBe(0);
         $this->getFinalPrice()->shouldBeLike(Money::EUR('30000'));
     }
+    function it_should_throw_exception_on_null_discount()
+    {
+        $this->shouldThrow('\Exception')->during(
+            '__construct',
+            ['XZ', Money::EUR('30000'), null]
+        );
+    }
     function it_should_throw_exception_on_bad_discount()
     {
         $this->shouldThrow('\Exception')->during(
