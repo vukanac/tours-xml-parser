@@ -21,17 +21,27 @@ class DepartureSpec extends ObjectBehavior
     {
         $this->shouldHaveType(Departure::class);
     }
-    function it_has_methods()
+    function it_has_method_get_code()
     {
         $this->getCode()->shouldBe('XA-10');
+    }
+    function it_has_method_get_price()
+    {
         $this->getPrice()->shouldBeLike(Money::EUR('10000'));
+    }
+    function it_has_method_get_discount()
+    {
         $this->getDiscount()->shouldBe(0.1);
+    }
+    function it_has_method_get_final_price_calculated_with_discount()
+    {
         $this->getFinalPrice()->shouldBeLike(Money::EUR('9000'));
     }
     function it_can_be_instantiated_without_discount()
     {
         $this->beConstructedWith('XZ', Money::EUR('30000'));
         $this->getDiscount()->shouldBe(0);
+        $this->getPrice()->shouldBeLike(Money::EUR('30000'));
         $this->getFinalPrice()->shouldBeLike(Money::EUR('30000'));
     }
     function it_should_throw_exception_on_null_discount()

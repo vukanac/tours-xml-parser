@@ -41,7 +41,7 @@ class Departure
 
     /**
      * Get Departure Discount
-     * @return float
+     * @return double
      */
     public function getDiscount()
     {

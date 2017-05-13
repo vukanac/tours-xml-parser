@@ -69,5 +69,4 @@ class DepartureSpec extends ObjectBehavior
 </TOURS>
 EOD;
     }
-
 }

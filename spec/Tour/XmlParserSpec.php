@@ -12,7 +12,6 @@ use Tour\Entities\Tours;
 use Tour\Entities\Departure;
 use Tour\Entities\Departures;
 
-
 class XmlParserSpec extends ObjectBehavior
 {
     function it_is_initializable()
@@ -45,7 +44,6 @@ class XmlParserSpec extends ObjectBehavior
         $this->getTours()->shouldHaveType(Tours::class);
         $this->getTours()->shouldHaveCount(2);
         $this->getTours()[0]->shouldHaveType(Tour::class);
-        // $this->getTours()[0]->getCode()->shouldBe('AE-19');
     }
 
     function it_can_get_title()
@@ -56,6 +54,7 @@ class XmlParserSpec extends ObjectBehavior
         $tour = $this->getTours()[0];
         $tour->getTitle()->shouldBe('Anzac & Egypt Combo Tour');
     }
+
     function it_can_get_code()
     {
         $inputXml = $this->getXml();
@@ -64,6 +63,7 @@ class XmlParserSpec extends ObjectBehavior
         $tour = $this->getTours()[0];
         $tour->getCode()->shouldBe('AE-19');
     }
+
     function it_can_get_duration()
     {
         $inputXml = $this->getXml();
@@ -94,57 +94,64 @@ class XmlParserSpec extends ObjectBehavior
         $tour->getDepartures()[0]->shouldHaveType(Departure::class);
     }
 
-    // function it_can_get_all_departures()
-    // {
-    //     $inputXml = $this->getXml();
-    //     $this->loadXmlString($inputXml);
-    //     // get first tour
-    //     $tour = $this->getTours()[0];
-    //     $tour->getDepartures()[0]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
-    //     $tour->getDepartures()[1]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
-    //     $tour->getDepartures()[2]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
-    //     $this->getDepartures()->shouldHaveCount(3);
-    //     $this->getDepartures()[0]->shouldHaveType(Departure::class);
-    // }
+    function it_can_get_departure_code()
+    {
+        $inputXml = $this->getXml();
+        $this->loadXmlString($inputXml);
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getDepartures()[0]->getCode()->shouldBe('AN-17');
+    }
 
-    // function it_can_get_departure_discount()
-    // {
-    //     $inputXml = $this->getXml();
-    //     $this->loadXmlString($inputXml);
-    //     $this->getDepartures()[0]->getDiscount()->shouldBe(0.15);
-    // }
+    function it_can_get_departure_price()
+    {
+        $inputXml = $this->getXml();
+        $this->loadXmlString($inputXml);
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getDepartures()[0]->getPrice()->shouldBeLike(Money::EUR('172400'));
+    }
 
-    // function it_can_get_departure_price()
-    // {
-    //     $inputXml = $this->getXml();
-    //     $this->loadXmlString($inputXml);
-    //     $this->getDepartures()[0]->getPrice()->shouldBeLike(Money::EUR('172400'));
-    // }
+    function it_can_get_departure_discount()
+    {
+        $inputXml = $this->getXml();
+        $this->loadXmlString($inputXml);
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getDepartures()[0]->getDiscount()->shouldBe(0.15);
+    }
 
-    // function it_can_get_departure_final_price_with_discount()
-    // {
-    //     $inputXml = $this->getXml();
-    //     $this->loadXmlString($inputXml);
-    //     $this->getDepartures()[1]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
-    // }
+    function it_can_get_departure_final_price_with_discount()
+    {
+        $inputXml = $this->getXml();
+        $this->loadXmlString($inputXml);
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getDepartures()[1]->getFinalPrice()->shouldBeLike(Money::EUR('142720'));
+    }
 
-    // function it_should_get_departure_discount_without_discount_set()
-    // {
-    //     $inputXml = $this->getXml();
-    //     $this->loadXmlString($inputXml);
-    //     $this->getDepartures()[2]->getDiscount()->shouldBe(0);
-    //     $this->getDepartures()[2]->getPrice()->shouldBeLike(Money::EUR('178400'));
-    //     $this->getDepartures()[2]->getFinalPrice()->shouldBeLike(Money::EUR('178400'));
-    // }
+    function it_should_get_departure_discount_without_discount_set()
+    {
+        $inputXml = $this->getXml();
+        $this->loadXmlString($inputXml);
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getDepartures()[2]->getDiscount()->shouldBe(0); // double
+        $tour->getDepartures()[2]->getPrice()->shouldBeLike(Money::EUR('178400'));
+        $tour->getDepartures()[2]->getFinalPrice()->shouldBeLike(Money::EUR('178400'));
+    }
 
     // function it_should_throw_error_if_no_departures()
     // {
-    //     $inputXml = $this->getXmlWithoutDepartures();
-    //     $this->loadXmlString($inputXml);
     //     // no departures
-    //     // $this->getDepartures()[2]->getDiscount()->shouldBe(0);
-    //     $this->shouldThrow('\Exception')->duringGetDepartures();
+    //     $inputXml = $this->getXmlWithoutDepartures();
+    //     // $this->loadXmlString($inputXml);
+    //     $this->shouldThrow('\Exception')->during(
+    //         'loadXmlString',
+    //         [$inputXml]
+    //     );
     // }
+
     // function it_can_get_min_price()
     // {
     //     $inputXml = $this->getXml();

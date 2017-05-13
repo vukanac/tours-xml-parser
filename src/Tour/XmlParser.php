@@ -72,7 +72,7 @@ class XmlParser
             $moneyParser = new DecimalMoneyParser(new ISOCurrencies());
             $priceMoney = $moneyParser->parse($depPrice, 'EUR');
 
-            $discount = floatval($depDiscount) / 100;
+            $discount = $depDiscount / 100;
 
             $departure = new Departure($depCode, $priceMoney, $discount);
             $departures->add($departure);
