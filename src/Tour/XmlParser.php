@@ -82,27 +82,6 @@ class XmlParser
         return $tour;
     }
 
-    /**
-     * Get minimal price for tour from all departures
-     *
-     * @return \Money\Money  Money representing amount and courrency
-     */
-    public function getMinPrice()
-    {
-        $departures = $this->getDepartures();
-        if (count($departures) == 0) {
-            throw new \Exception('No available departures to calculate minimal price!');
-        }
-
-        $minPrice = current($departures)->getFinalPrice();
-        foreach ($departures as $one) {
-            if ($minPrice->greaterThan($one->getFinalPrice())) {
-                $minPrice = $one->getFinalPrice();
-            }
-        }
-        return $minPrice;
-    }
-
     public function getTours()
     {
         return $this->tours;

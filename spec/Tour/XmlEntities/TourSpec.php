@@ -82,15 +82,6 @@ class TourSpec extends ObjectBehavior
         $this->shouldThrow('\Exception')->duringGetDepartures();
     }
 
-    // function it_can_get_min_price()
-    // {
-    //     $inputXml = $this->getXml();
-    //     $this->loadXmlString($inputXml);
-    //     // get first tour
-    //     $tour = $this->getTours()[0];
-    //     $tour->getMinPrice()->shouldBeLike(Money::EUR('142720'));
-    // }
-
     public function getXmlWithoutDepartures()
     {
         return <<<EOD

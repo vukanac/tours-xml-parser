@@ -152,14 +152,6 @@ class XmlParserSpec extends ObjectBehavior
         );
     }
 
-    // function it_can_get_min_price()
-    // {
-    //     $inputXml = $this->getXml();
-    //     $this->loadXmlString($inputXml);
-    //     // get first tour
-    //     $tour = $this->getTours()[0];
-    //     $tour->getMinPrice()->shouldBeLike(Money::EUR('142720'));
-    // }
     public function getXml()
     {
         return <<<EOD

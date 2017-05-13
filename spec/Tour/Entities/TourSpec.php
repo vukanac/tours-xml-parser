@@ -6,8 +6,9 @@ use Tour\Entities\Tour;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-use Tour\Entities\Departure;
 use Tour\Entities\Departures;
+use Tour\Entities\Departure;
+use Money\Money;
 
 class TourSpec extends ObjectBehavior
 {
@@ -33,5 +34,15 @@ class TourSpec extends ObjectBehavior
     {
         $this->setDepartures(new Departures());
         $this->getDepartures()->shouldHaveType(Departures::class);
+    }
+
+    function it_can_get_min_price()
+    {
+        $departures = new Departures();
+        $departures->add(new Departure('AA-01', Money::EUR(900)));      // 9.00
+        $departures->add(new Departure('AA-02', Money::EUR(1000), 0.3));// 7.00 = 10.00 x 30% discount
+        $departures->add(new Departure('AA-03', Money::EUR(800)));      // 8.00
+        $this->setDepartures($departures);
+        $this->getMinPrice()->shouldBeLike(Money::EUR(700));
     }
 }
