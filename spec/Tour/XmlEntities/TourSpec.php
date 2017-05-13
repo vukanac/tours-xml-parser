@@ -74,6 +74,42 @@ class TourSpec extends ObjectBehavior
         $oneDeparture->getDiscount()->shouldBe('0');
     }
 
+    function it_should_throw_error_if_no_departures()
+    {
+        // no departures
+        $xmlObj = new SimpleXMLElement($this->getXmlWithoutDepartures());
+        $this->beConstructedWith($xmlObj->TOUR);
+        $this->shouldThrow('\Exception')->duringGetDepartures();
+    }
+
+    // function it_can_get_min_price()
+    // {
+    //     $inputXml = $this->getXml();
+    //     $this->loadXmlString($inputXml);
+    //     // get first tour
+    //     $tour = $this->getTours()[0];
+    //     $tour->getMinPrice()->shouldBeLike(Money::EUR('142720'));
+    // }
+
+    public function getXmlWithoutDepartures()
+    {
+        return <<<EOD
+<?xml version="1.0"?>
+<TOURS>
+    <TOUR>
+        <Title><![CDATA[Anzac &amp; Egypt Combo Tour]]></Title>
+        <Code>AE-19</Code>
+        <Duration>18</Duration>
+        <Start>Istanbul</Start>
+        <End>Cairo</End>
+        <Inclusions>
+            <![CDATA[<div style="margin: 1px 0px; padding: 1px 0px; border: 0px; outline: 0px; font-size: 14px; vertical-align: baseline; text-align: justify; line-height: 19px; color: rgb(6, 119, 179);">The tour price&nbsp; cover the following services: <b style="margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; background-color: transparent;">Accommodation</b>; 5, 4&nbsp;and&nbsp;3 star hotels&nbsp;&nbsp;</div>]]>
+        </Inclusions>
+    </TOUR>
+</TOURS>
+EOD;
+    }
+
     public function getXml()
     {
         return <<<EOD

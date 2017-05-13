@@ -43,9 +43,9 @@ class Tour
      */
     public function getDepartures()
     {
-        // if (count($this->tourXmlObj->DEP) == 0) {
-        //     throw new \Exception('No available departures to calculate minimal price!');
-        // }
+        if (count($this->tourXmlObj->DEP) == 0) {
+            throw new \Exception('No available departures to calculate minimal price!');
+        }
 
         $departures = [];
         foreach ($this->tourXmlObj->DEP as $oneDeparture) {

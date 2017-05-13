@@ -141,16 +141,16 @@ class XmlParserSpec extends ObjectBehavior
         $tour->getDepartures()[2]->getFinalPrice()->shouldBeLike(Money::EUR('178400'));
     }
 
-    // function it_should_throw_error_if_no_departures()
-    // {
-    //     // no departures
-    //     $inputXml = $this->getXmlWithoutDepartures();
-    //     // $this->loadXmlString($inputXml);
-    //     $this->shouldThrow('\Exception')->during(
-    //         'loadXmlString',
-    //         [$inputXml]
-    //     );
-    // }
+    function it_should_throw_error_if_no_departures()
+    {
+        // no departures
+        $inputXml = $this->getXmlWithoutDepartures();
+        // $this->loadXmlString($inputXml);
+        $this->shouldThrow('\Exception')->during(
+            'loadXmlString',
+            [$inputXml]
+        );
+    }
 
     // function it_can_get_min_price()
     // {
