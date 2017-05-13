@@ -4,11 +4,15 @@ namespace Tour;
 
 use Tour\XmlEntities\Departure as DepartureXml;
 use Tour\XmlEntities\Tour as TourXml;
-// use Toure\Entities\Departure;
+use Tour\Entities\Departures;
+use Tour\Entities\Departure;
 use Tour\Entities\Tours;
 use Tour\Entities\Tour;
 use SimpleXMLElement;
 use Money\Money;
+// Parser
+use Money\Currencies\ISOCurrencies;
+use Money\Parser\DecimalMoneyParser;
 
 class XmlParser
 {
@@ -58,10 +62,24 @@ class XmlParser
         $tour->setTitle($tourParser->getTitle());
         $tour->setInclusions($tourParser->getInclusions());
 
-        // $departuresXml = $tourParser->getDepartures();
-        // foreach ($departuresXml as $departureXml) {
-            
-        // }
+        $departures = new Departures();
+        $departuresParser = $tourParser->getDepartures();
+        // var_dump($departuresParser);
+        foreach ($departuresParser as $departureParser) {
+            $depCode = $departureParser->getCode();
+            $depPrice = $departureParser->getPrice();
+            $depDiscount = $departureParser->getDiscount();
+
+            $moneyParser = new DecimalMoneyParser(new ISOCurrencies());
+            $priceMoney = $moneyParser->parse($depPrice, 'EUR');
+            // echo $priceMoney->getAmount(); // outputs 100000
+
+            $discount = floatval($depDiscount) / 100;
+
+            $departure = new Departure($depCode, $priceMoney, $discount);
+            $departures->add($departure);
+        }
+        $tour->setDepartures($departures);
 
         return $tour;
     }

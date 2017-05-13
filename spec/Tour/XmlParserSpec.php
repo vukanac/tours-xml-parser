@@ -83,16 +83,16 @@ class XmlParserSpec extends ObjectBehavior
             ->shouldBe('The tour price cover the following services: Accommodation; 5, 4 and 3 star hotels');
     }
 
-    // function it_can_get_departures_collection()
-    // {
-    //     $inputXml = $this->getXml();
-    //     $this->loadXmlString($inputXml);
-    //     // get first tour
-    //     $tour = $this->getTours()[0];
-    //     $tour->getDepartures()->shouldHaveType(Departures::class);
-    //     $tour->getDepartures()->shouldHaveCount(3);
-    //     $tour->getDepartures()[0]->shouldHaveType(Departure::class);
-    // }
+    function it_can_get_departures_collection()
+    {
+        $inputXml = $this->getXml();
+        $this->loadXmlString($inputXml);
+        // get first tour
+        $tour = $this->getTours()[0];
+        $tour->getDepartures()->shouldHaveType(Departures::class);
+        $tour->getDepartures()->shouldHaveCount(3);
+        $tour->getDepartures()[0]->shouldHaveType(Departure::class);
+    }
 
     // function it_can_get_all_departures()
     // {
