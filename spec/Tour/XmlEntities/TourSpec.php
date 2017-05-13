@@ -50,6 +50,30 @@ class TourSpec extends ObjectBehavior
         $this->getDepartures()->shouldBeArray();
     }
 
+    function it_has_method_one_departure()
+    {
+        $oneDeparture = $this->getDepartures()[0];
+        $oneDeparture->getCode()->shouldBe('AN-17');
+    }
+
+    function it_has_method_departure_price()
+    {
+        $oneDeparture = $this->getDepartures()[0];
+        $oneDeparture->getPrice()->shouldBe('1724');
+    }
+
+    function it_has_method_departure_discount()
+    {
+        $oneDeparture = $this->getDepartures()[0];
+        $oneDeparture->getDiscount()->shouldBe('15');
+    }
+
+    function it_has_method_departure_with_no_discount()
+    {
+        $oneDeparture = $this->getDepartures()[2];
+        $oneDeparture->getDiscount()->shouldBe('0');
+    }
+
     public function getXml()
     {
         return <<<EOD
@@ -96,10 +120,8 @@ EOD;
         $this->cleanUpHtmlToOneLinePlainText('x<br class="test" />x')->shouldBe('x x');
         // $this->cleanUpHtmlToOneLinePlainText(' 5, 4&nbsp;and&nbsp;3 star hotels&nbsp;&nbsp;')->shouldBe('5, 4'."\xC2\xA0".'and'."\xC2\xA0".'3 star hotels'."\xC2\xA0".''."\xC2\xA0".'');
         $this->cleanUpHtmlToOneLinePlainText(' 5, 4&nbsp;and&nbsp;3 star hotels&nbsp;&nbsp;')
-                ->shouldBe('5, 4 and 3 star hotels');
+            ->shouldBe('5, 4 and 3 star hotels');
         $this->cleanUpHtmlToOneLinePlainText('<div style="margin: 1px 0px; padding: 1px 0px; border: 0px; outline: 0px; font-size: 14px; vertical-align: baseline; text-align: justify; line-height: 19px; color: rgb(6, 119, 179);">The tour price&nbsp; cover the following services: <b style="margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: baseline; background-color: transparent;">Accommodation</b>; 5, 4&nbsp;and&nbsp;3 star hotels&nbsp;&nbsp;</div>')
             ->shouldBe('The tour price cover the following services: Accommodation; 5, 4 and 3 star hotels');
-        
     }
-
 }

@@ -3,6 +3,7 @@
 namespace Tour\XmlEntities;
 
 use SimpleXMLElement;
+use Tour\XmlEntities\Departure;
 
 class Tour
 {
@@ -35,7 +36,23 @@ class Tour
         return $str;
     }
 
-    
+    /**
+     * Get a list of departures
+     *
+     * @return array An array of Departure(s)
+     */
+    public function getDepartures()
+    {
+        // if (count($this->tourXmlObj->DEP) == 0) {
+        //     throw new \Exception('No available departures to calculate minimal price!');
+        // }
+
+        $departures = [];
+        foreach ($this->tourXmlObj->DEP as $oneDeparture) {
+            $departures[] = new Departure($oneDeparture);
+        }
+        return $departures;
+    }
 
     /**
      * Clean up Html string to plain text in one line.
@@ -86,47 +103,4 @@ class Tour
 
         return $str;
     }
-
-    /**
-     * Get a list of departures
-     *
-     * @return array An array of Departure(s)
-     */
-    public function getDepartures()
-    {
-        // if (count($this->tourXmlObj->DEP) == 0) {
-        //     throw new \Exception('No available departures to calculate minimal price!');
-        // }
-
-        $departures = [];
-        // foreach ($this->toursXmlObj->DEP as $oneDeparture) {
-        //     $departure = $this->getDeparture($oneDeparture);
-        //     $departures[] = $departure;
-        // }
-        return $departures;
-    }
-
-    /**
-     * Convert XML Departure node to Departure entity
-     *
-     * @param  SimpleXMLElement $oneDeparture [description]
-     * @return Departure                      [description]
-     */
-    // private function getDeparture(SimpleXMLElement $oneDeparture)
-    // {
-    //     //
-    //     // <DEP DepartureCode="AN-17" Starts="04/19/2015" GBP="1458" EUR="1724" USD="2350" DISCOUNT="15%" />
-    //     //
-    //     $code = (string) $oneDeparture['DepartureCode'];
-    //     $price = (string) $oneDeparture['EUR'];
-    //     $discount = isset($oneDeparture['DISCOUNT'])
-    //         ? (str_replace('%', '', trim(
-    //             (string) $oneDeparture['DISCOUNT']
-    //         )))
-    //         : '0';
-    //     //
-    //     $departure = new Departure($code, $price, $discount);
-
-    //     return $departure;
-    // }
 }
