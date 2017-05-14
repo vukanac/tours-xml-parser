@@ -23,3 +23,27 @@ Output format:
 
 	Title|Code|Duration|Inclusions|MinPrice|
 	Tour title|AE-19|18|The tour price cover all services|2121.20
+
+
+Instalation
+-----------
+
+Download or clone repository:
+
+    $ git clone https://github.com/vukanac/tours-xml-parser.git
+
+Install required libraries:
+
+    $ composer install
+
+
+Example of use
+--------------
+
+Project have samle file with a tours `data/tours.xml`. In process, the complex data stracture will be converted to a simpler, pipe (`|`) separated fields in file `data/tours.csv`.
+
+    $ php index.php
+
+For php memory limit of 128MB it is possible to convert 20.000 tours in xml structure.
+
+    $ php test_20k.php
