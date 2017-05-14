@@ -32,6 +32,8 @@ $outputText = $xmlParser->xmlToCSV($inputXmlStr);
 // save to file
 $filesystem->put($fileCsvResult, $outputText);
 
+echo "File `{$fileXmlSource}` is converted to `{$fileCsvResult}`." . PHP_EOL;
+echo 'Number of tours parsed: ' . $xmlParser->getTours()->count() . PHP_EOL;
+
 echo 'Memory use      : ' . round(memory_get_usage()/1048576, 2) . 'M' . PHP_EOL;
 echo 'Peak Memory use : ' . round(memory_get_peak_usage()/1048576, 2) . 'M' . PHP_EOL;
-echo 'N: ' . $i . PHP_EOL;

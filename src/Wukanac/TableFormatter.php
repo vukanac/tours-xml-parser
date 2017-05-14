@@ -10,6 +10,12 @@ class TableFormatter
 
     public function __construct($delimiter = ",", $enclosure = '', $escapeChar = '')
     {
+        // @TODO: Add Exporter Strategy: CSV, CSV Excell, Pipe
+        // - CSV (native, quoted),
+        // - CSV (native, quoted, semi-colon separated ';'),
+        // - CSV for Excell (with BOM for UTF-8),
+        // - Pipe without quotes
+
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
         $this->escapeChar = $escapeChar;
