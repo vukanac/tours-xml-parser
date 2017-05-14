@@ -21,8 +21,8 @@ class Tour
 
     public function getTitle()
     {
-        // @TODO: use cleanUp method like in Inclusions
-        return html_entity_decode((string) $this->tourXmlObj->Title);
+        $str = (string) $this->tourXmlObj->Title;
+        return $this->cleanUpHtmlToOneLinePlainText($str);
     }
 
     public function getDuration()
@@ -33,8 +33,7 @@ class Tour
     public function getInclusions()
     {
         $str = (string) $this->tourXmlObj->Inclusions;
-        $str = $this->cleanUpHtmlToOneLinePlainText($str);
-        return $str;
+        return $this->cleanUpHtmlToOneLinePlainText($str);
     }
 
     /**

@@ -107,7 +107,7 @@ EOD;
 <?xml version="1.0"?>
 <TOURS>
     <TOUR>
-        <Title><![CDATA[Combo Tour]]></Title>
+        <Title><![CDATA[Combo <b class="strong">Tour </b>&nbsp; &nbsp;]]></Title>
         <Code>AE-19</Code>
         <Duration>18</Duration>
         <Start>Istanbul</Start>
