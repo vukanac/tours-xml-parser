@@ -1,4 +1,7 @@
 Version 0.1.0:
+
+
+Version 0.1.0:
  - Merge branch 'feature/tour-parser' into develop
  - Add bump version script
  - Add how to instructions and count parsed tours
