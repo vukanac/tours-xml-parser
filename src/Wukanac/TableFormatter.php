@@ -67,7 +67,7 @@ class TableFormatter
         // // Title|Code|Duration|Inclusions|MinPrice
         // // "Anzac & Egypt Combo Tour"|AE-19|18|"The ... star hotels"|1427.20
         // fputcsv($handler, $row, '|');
-        
+
         // Strategy 2: putRowWithoutQuotes - Row without quotes
         // -----------------------------------------------------------------------------
         // Title|Code|Duration|Inclusions|MinPrice

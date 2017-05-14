@@ -4,6 +4,7 @@ namespace Tour;
 
 use Tour\XmlEntities\Departure as DepartureXml;
 use Tour\XmlEntities\Tour as TourXml;
+use Tour\Exporters\CsvExporter;
 use Tour\Entities\Departures;
 use Tour\Entities\Departure;
 use Tour\Entities\Tours;
@@ -33,9 +34,9 @@ class XmlParser
     public function xmlToCSV($xmlStr)
     {
         $this->loadXmlString($xmlStr);
-
-        
-        //return $outputText;
+        $tours = $this->getTours();
+        $exporter = new CsvExporter($tours);
+        return $exporter->getCsvContent();
     }
 
     public function loadXmlString($xmlStr)

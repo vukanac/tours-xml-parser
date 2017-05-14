@@ -21,6 +21,7 @@ class Tour
 
     public function getTitle()
     {
+        // @TODO: use cleanUp method like in Inclusions
         return html_entity_decode((string) $this->tourXmlObj->Title);
     }
 

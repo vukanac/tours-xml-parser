@@ -25,16 +25,6 @@ class XmlParserSpec extends ObjectBehavior
 
     //     $file = 'data/tours.xml';
     //     $contents = $filesystem->read($file);
-
-
-    // }
-    
-
-    // function it_has_mathod_xmlToCSV()
-    // {
-    //     $inputXml = $this->getXml();
-    //     $outputText = $this->getOutputText();
-    //     $this->xmlToCSV($inputXml)->shouldBe($outputText);
     // }
 
     function it_load_xml_into_tour_objects()
@@ -44,6 +34,7 @@ class XmlParserSpec extends ObjectBehavior
         $this->getTours()->shouldHaveType(Tours::class);
         $this->getTours()->shouldHaveCount(2);
         $this->getTours()[0]->shouldHaveType(Tour::class);
+        $this->getTours()[1]->shouldHaveType(Tour::class);
     }
 
     function it_can_get_title()
@@ -152,6 +143,13 @@ class XmlParserSpec extends ObjectBehavior
         );
     }
 
+    function it_has_mathod_xmlToCSV()
+    {
+        $inputXml = $this->getXmlWithMultipleTours();
+        $outputText = $this->getOutputTextWithMultipleTours();
+        $this->xmlToCSV($inputXml)->shouldBe($outputText);
+    }
+
     public function getXml()
     {
         return <<<EOD
@@ -253,13 +251,13 @@ EOD;
 
     public function getOutputText()
     {
-        return 'Title|Code|Duration|Inclusions|MinPrice|
+        return 'Title|Code|Duration|Inclusions|MinPrice
 Anzac & Egypt Combo Tour|AE-19|18|The tour price cover the following services: Accommodation; 5, 4 and 3 star hotels|1427.20
 ';
     }
     public function getOutputTextWithMultipleTours()
     {
-        return 'Title|Code|Duration|Inclusions|MinPrice|
+        return 'Title|Code|Duration|Inclusions|MinPrice
 Anzac & Egypt Combo Tour|AE-19|18|The tour price cover the following services: Accommodation; 5, 4 and 3 star hotels|1427.20
 Simple Tour Title|CO-35|37|Plain Inclusions text|1427.20
 Train Tour|CO-10|6|Another Tour With Trains|1784.00
