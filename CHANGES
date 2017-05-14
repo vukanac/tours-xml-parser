@@ -1,0 +1,24 @@
+Version 0.1.0:
+
+
+Version 0.1.0:
+ - Merge branch 'feature/tour-parser' into develop
+ - Add bump version script
+ - Add how to instructions and count parsed tours
+ - Add index and test_20k as use case
+ - Use cleanUp html string method for Tour Title like in Inclusions
+ - Add Matrix Table to CSV Formatter
+ - Add CSV Exporter and Table Formatter
+ - Add min price for the tour
+ - Add exeption if no departures in the tour
+ - Add methods comments and few test with cleanup
+ - Add prevention of null discount in Departure
+ - Remove not used code part from Deprture class
+ - Update XML Parser - add parsed departures
+ - Update Tour spec and class
+ - Add XML Departure parser
+ - Add test for add and count Departures
+ - Add parser for base of Tour
+ - Add base of XML Parser
+ - Initial commit
+
